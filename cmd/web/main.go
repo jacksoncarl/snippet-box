@@ -5,13 +5,11 @@ import (
 	"net/http"
 )
 
-func home(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello from snippet box!"))
-}
-
 func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", home)
+	mux.HandleFunc("/snippet", showSnippet)
+	mux.HandleFunc("/snippet/create", createSnippet)
 
 	log.Println("Starting server on :4000")
 	err := http.ListenAndServe(":4000", mux)
