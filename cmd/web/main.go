@@ -27,7 +27,10 @@ func main() {
 	infoLog.Printf("Starting server on %s", *addr)
 	err := http.ListenAndServe(*addr, mux)
 	errorLog.Fatal(err)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6b7bfe97a70f665e60735766ca9e02ef1e749cf7
 }
 
 type neuteredFileSystem struct {
