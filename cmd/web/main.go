@@ -4,17 +4,18 @@ import (
 	"flag"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 )
 
 func main() {
-
 	addr := flag.String("addr", ":4000", "HTTP network address")
-
 	flag.Parse()
 
-	mux := http.NewServeMux()
+	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
+	mux := http.NewServeMux()
 	mux.HandleFunc("/", home)
 	mux.HandleFunc("/snippet", showSnippet)
 	mux.HandleFunc("/snippet/create", createSnippet)
@@ -23,9 +24,9 @@ func main() {
 	mux.Handle("/static", http.NotFoundHandler())
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
-	log.Printf("Starting server on %s", *addr)
+	infoLog.Printf("Starting server on %s", *addr)
 	err := http.ListenAndServe(*addr, mux)
-	log.Fatal(err)
+	errorLog.Fatal(err)
 }
 
 type neuteredFileSystem struct {
